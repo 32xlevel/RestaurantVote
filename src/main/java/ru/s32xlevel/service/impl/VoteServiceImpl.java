@@ -45,21 +45,27 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public List<Vote> getAll(LocalDate date) {
-        return null;
+        date = DateTimeUtil.nullToNow(date);
+        return repository.getAll(date);
     }
 
     @Override
     public List<Vote> getAllBetween(LocalDate startDate, LocalDate endDate) {
-        return null;
+        startDate = DateTimeUtil.nullToMin(startDate);
+        endDate = DateTimeUtil.nullToMax(endDate);
+        return repository.getBetween(startDate, endDate);
     }
 
     @Override
     public List<Vote> getAllToRestaurant(LocalDate date, int rId) {
-        return null;
+        date = DateTimeUtil.nullToNow(date);
+        return repository.getAllToRestaurant(date, rId);
     }
 
     @Override
     public List<Vote> getAllToRestaurantHistory(LocalDate startDate, LocalDate endDate, int rId) {
-        return null;
+        startDate = DateTimeUtil.nullToMin(startDate);
+        endDate = DateTimeUtil.nullToMax(endDate);
+        return repository.getAllToRestaurantHistory(startDate, endDate, rId);
     }
 }
