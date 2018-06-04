@@ -1,0 +1,37 @@
+package ru.s32xlevel.web.user;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import ru.s32xlevel.AuthorizedUser;
+import ru.s32xlevel.model.User;
+
+import javax.validation.Valid;
+
+@RestController
+@RequestMapping(ProfileRestController.REST_URL)
+public class ProfileRestController extends AbstractUserController {
+    static final String REST_URL = "/profile";
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public User get(@AuthenticationPrincipal AuthorizedUser authorizedUser) {
+        return super.get(authorizedUser.getId());
+    }
+
+    @DeleteMapping
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void delete(@AuthenticationPrincipal AuthorizedUser authorizedUser) {
+        super.delete(authorizedUser.getId());
+    }
+
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@Valid @RequestBody User user, @AuthenticationPrincipal AuthorizedUser authorizedUser) {
+        super.update(user, authorizedUser.getId());
+    }
+
+    @GetMapping(value = "/text")
+    public String testUTF() {
+        return "Русский текст";
+    }
+}
