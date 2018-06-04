@@ -8,6 +8,7 @@ import ru.s32xlevel.repository.VoteRepository;
 import ru.s32xlevel.service.VoteService;
 import ru.s32xlevel.util.DateTimeUtil;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -26,39 +27,39 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     @Transactional
-    public Vote vote(int restaurantId, int userId, LocalDateTime dateTime) {
-        Vote vote = get(userId, dateTime);
+    public Vote vote(int restaurantId, int userId, LocalTime localTime) {
+        Vote vote = get(userId, LocalDate.now());
         if(vote == null) {
-            vote = new Vote(userId, LocalDateTime.now());
+            vote = new Vote(userId, LocalDate.now());
         }
 
-        vote = !vote.isNew() && dateTime.toLocalTime().isAfter(LocalTime.of(11, 0)) ? null : repository.save(vote, restaurantId);
+        vote = !vote.isNew() && localTime.isAfter(LocalTime.of(11, 0)) ? null : repository.save(vote, restaurantId);
         return checkNotFoundWithId(vote, restaurantId);
     }
 
     @Override
-    public Vote get(int userId, LocalDateTime date) {
+    public Vote get(int userId, LocalDate date) {
         date = DateTimeUtil.nullToNow(date);
         return repository.get(date, userId);
     }
 
     @Override
-    public List<Vote> getAll(LocalDateTime date) {
+    public List<Vote> getAll(LocalDate date) {
         return null;
     }
 
     @Override
-    public List<Vote> getAllBetween(LocalDateTime startDate, LocalDateTime endDate) {
+    public List<Vote> getAllBetween(LocalDate startDate, LocalDate endDate) {
         return null;
     }
 
     @Override
-    public List<Vote> getAllToRestaurant(LocalDateTime date, int rId) {
+    public List<Vote> getAllToRestaurant(LocalDate date, int rId) {
         return null;
     }
 
     @Override
-    public List<Vote> getAllToRestaurantHistory(LocalDateTime startDate, LocalDateTime endDate, int rId) {
+    public List<Vote> getAllToRestaurantHistory(LocalDate startDate, LocalDate endDate, int rId) {
         return null;
     }
 }

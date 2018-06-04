@@ -36,7 +36,7 @@ public class DishRestController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Dish> getAll(@PathVariable("id") int restaurantId,
                              @RequestParam(value = "date", required = false)
-                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
         log.info("getAll dish for {} restaurant for {} date", restaurantId, date);
         return dishService.getAll(restaurantId, date);
@@ -45,9 +45,9 @@ public class DishRestController {
     @GetMapping(value = "/history/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Dish> getBetween(@PathVariable("id") int restaurantId,
                                  @RequestParam(value = "startDate", required = false)
-                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                  @RequestParam(value = "endDate", required = false)
-                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
         log.info("getBetween dish for {} restaurant from {} to {} date", restaurantId, startDate, endDate);
         return dishService.getAllBetween(restaurantId, startDate, endDate);

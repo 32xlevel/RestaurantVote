@@ -2,14 +2,11 @@ package ru.s32xlevel.util;
 
 import ru.s32xlevel.model.Dish;
 import ru.s32xlevel.model.Restaurant;
-import ru.s32xlevel.repository.RestaurantRepository;
-import ru.s32xlevel.repository.impl.RestaurantRepositoryImpl;
 import ru.s32xlevel.to.RestaurantWithVote;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -20,14 +17,14 @@ public class RestaurantUtil {
     private static int voteCount(Restaurant restaurant, LocalDate startDate, LocalDate endDate) {
         return restaurant.getVotes() == null || restaurant.getVotes().size() == 0 ? 0 :
                 (int) restaurant.getVotes().stream()
-                        .filter(vote -> DateTimeUtil.isBetween(vote.getDateTime().toLocalDate(), startDate, endDate))
+                        .filter(vote -> DateTimeUtil.isBetween(vote.getDate(), startDate, endDate))
                         .count();
     }
 
     private static int voteCount(Restaurant restaurant, LocalDate date) {
         return restaurant.getVotes() == null || restaurant.getVotes().size() == 0 ? 0 :
                 (int) restaurant.getVotes().stream()
-                        .filter(vote -> vote.getDateTime().toLocalDate().isEqual(date))
+                        .filter(vote -> vote.getDate().isEqual(date))
                         .count();
     }
 
@@ -53,17 +50,17 @@ public class RestaurantUtil {
         }
     }
 
-    public static List<RestaurantWithVote> getAllWithoutMenu(List<Restaurant> list, LocalDateTime startDate, LocalDateTime endDate) {
-        LocalDateTime inputStartDate = DateTimeUtil.nullToMin(startDate);
-        LocalDateTime inputEndDate = DateTimeUtil.nullToMax(endDate);
+    public static List<RestaurantWithVote> getAllWithoutMenu(List<Restaurant> list, LocalDate startDate, LocalDate endDate) {
+        LocalDate inputStartDate = DateTimeUtil.nullToMin(startDate);
+        LocalDate inputEndDate = DateTimeUtil.nullToMax(endDate);
 
         return list.stream().map(restaurant ->
-                new RestaurantWithVote(restaurant, null, voteCount(restaurant, inputStartDate.toLocalDate(), inputEndDate.toLocalDate())))
+                new RestaurantWithVote(restaurant, null, voteCount(restaurant, inputStartDate, inputEndDate)))
                 .collect(toList());
     }
 
-    public static List<RestaurantWithVote> getAllWithoutMenu(List<Restaurant> list, LocalDateTime date) {
-        LocalDate inputDate = DateTimeUtil.nullToNow(date).toLocalDate();
+    public static List<RestaurantWithVote> getAllWithoutMenu(List<Restaurant> list, LocalDate date) {
+        LocalDate inputDate = DateTimeUtil.nullToNow(date);
 
         return list.stream().map(restaurant ->
                 new RestaurantWithVote(restaurant, null, voteCount(restaurant, inputDate)))
@@ -71,41 +68,41 @@ public class RestaurantUtil {
     }
 
     public static List<RestaurantWithVote> getAll(List<Restaurant> list,
-                                                  LocalDateTime inputStartDate,
-                                                  LocalDateTime inputEndDate,
-                                                  LocalDateTime inputStartDateMenu,
-                                                  LocalDateTime inputEndDateMenu) {
+                                                  LocalDate inputStartDate,
+                                                  LocalDate inputEndDate,
+                                                  LocalDate inputStartDateMenu,
+                                                  LocalDate inputEndDateMenu) {
 
-        LocalDate startDate = DateTimeUtil.nullToMin(inputStartDate).toLocalDate();
-        LocalDate endDate = DateTimeUtil.nullToMax(inputEndDate).toLocalDate();
-        LocalDate startDateMenu = DateTimeUtil.nullToMin(inputStartDateMenu).toLocalDate();
-        LocalDate endDateMenu = DateTimeUtil.nullToMax(inputEndDateMenu).toLocalDate();
+        LocalDate startDate = DateTimeUtil.nullToMin(inputStartDate);
+        LocalDate endDate = DateTimeUtil.nullToMax(inputEndDate);
+        LocalDate startDateMenu = DateTimeUtil.nullToMin(inputStartDateMenu);
+        LocalDate endDateMenu = DateTimeUtil.nullToMax(inputEndDateMenu);
 
         return list.stream().map(i -> new RestaurantWithVote(i, menuDates(i, startDateMenu, endDateMenu), voteCount(i, startDate, endDate)))
                 .collect(toList());
     }
 
     public static List<RestaurantWithVote> getAll(List<Restaurant> list,
-                                                  LocalDateTime inputStartDate,
-                                                  LocalDateTime inputEndDate,
-                                                  LocalDateTime inputDateMenu) {
-        LocalDate date = DateTimeUtil.nullToNow(inputDateMenu).toLocalDate();
-        LocalDate startDate = DateTimeUtil.nullToMin(inputStartDate).toLocalDate();
-        LocalDate endDate = DateTimeUtil.nullToMax(inputEndDate).toLocalDate();
+                                                  LocalDate inputStartDate,
+                                                  LocalDate inputEndDate,
+                                                  LocalDate inputDateMenu) {
+        LocalDate date = DateTimeUtil.nullToNow(inputDateMenu);
+        LocalDate startDate = DateTimeUtil.nullToMin(inputStartDate);
+        LocalDate endDate = DateTimeUtil.nullToMax(inputEndDate);
         return list.stream().map(i -> new RestaurantWithVote(i, menuDate(i, date), voteCount(i, startDate, endDate)))
                 .collect(toList());
     }
 
     public static List<RestaurantWithVote> getAll(List<Restaurant> list,
-                                                  LocalDateTime inputDate) {
-        LocalDate date = DateTimeUtil.nullToNow(inputDate).toLocalDate();
+                                                  LocalDate inputDate) {
+        LocalDate date = DateTimeUtil.nullToNow(inputDate);
         return list.stream().map(i -> new RestaurantWithVote(i, menuDate(i, date), voteCount(i, date)))
                 .collect(toList());
     }
 
     public static List<RestaurantWithVote> getAllWithMenu(List<Restaurant> list,
-                                                           LocalDateTime inputDate) {
-        LocalDate date = DateTimeUtil.nullToNow(inputDate).toLocalDate();
+                                                          LocalDate inputDate) {
+        LocalDate date = DateTimeUtil.nullToNow(inputDate);
 
         return list.stream().map(i -> {
             Integer count = i.getVotes() == null ? 0 : i.getVotes().size();

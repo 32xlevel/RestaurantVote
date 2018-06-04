@@ -6,20 +6,20 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "votes_date_time_idx")} )
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_date_idx")} )
 public class Vote extends AbstractBaseEntity {
 
     @Column(name = "user_id", nullable = false)
     @NotNull
     private Integer userId;
 
-    @Column(name = "date_time", nullable = false)
+    @Column(name = "date", nullable = false)
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime dateTime;
+    private LocalDate date;
 
     @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
@@ -30,20 +30,20 @@ public class Vote extends AbstractBaseEntity {
     public Vote() {
     }
 
-    public Vote(Integer id, Integer userId, LocalDateTime dateTime, Restaurant restaurant) {
+    public Vote(Integer id, Integer userId, LocalDate date, Restaurant restaurant) {
         super(id);
         this.userId = userId;
-        this.dateTime = dateTime;
+        this.date = date;
         this.restaurant = restaurant;
     }
 
-    public Vote(Integer userId, LocalDateTime dateTime) {
+    public Vote(Integer userId, LocalDate dateTime) {
         this.userId = userId;
-        this.dateTime = dateTime;
+        this.date = dateTime;
     }
 
     public Vote(Vote v) {
-        this(v.getId(), v.getUserId(), v.getDateTime(), v.getRestaurant());
+        this(v.getId(), v.getUserId(), v.getDate(), v.getRestaurant());
     }
 
     public Integer getUserId() {
@@ -54,12 +54,12 @@ public class Vote extends AbstractBaseEntity {
         this.userId = userId;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(LocalDate dateTime) {
+        this.date = dateTime;
     }
 
     public Restaurant getRestaurant() {

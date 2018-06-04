@@ -12,11 +12,11 @@ public interface DishService {
 
     void delete(int id) throws NotFoundException;
 
-    List<Dish> getAll(int restaurantId, LocalDateTime date);
+    List<Dish> getAll(int restaurantId, LocalDate date);
 
     Dish update(Dish dish, int restaurantId) throws NotFoundException;
 
     Dish create(Dish dish, int restaurantId);
 
-    List<Dish> getAllBetween(int id, LocalDateTime startDate, LocalDateTime endDate);
+    List<Dish> getAllBetween(int id, LocalDate startDate, LocalDate endDate);
 }

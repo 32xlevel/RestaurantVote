@@ -36,9 +36,9 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public List<Dish> getAll(int restaurantId, LocalDateTime date) {
+    public List<Dish> getAll(int restaurantId, LocalDate date) {
         date = DateTimeUtil.nullToNow(date);
-        return repository.getAll(restaurantId, date.toLocalDate());
+        return repository.getAll(restaurantId, date);
     }
 
     @Override
@@ -53,9 +53,9 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public List<Dish> getAllBetween(int id, LocalDateTime startDate, LocalDateTime endDate) {
+    public List<Dish> getAllBetween(int id, LocalDate startDate, LocalDate endDate) {
         startDate = DateTimeUtil.nullToMin(startDate);
         endDate = DateTimeUtil.nullToMax(endDate);
-        return repository.getAllBetween(startDate.toLocalDate(), endDate.toLocalDate(), id);
+        return repository.getAllBetween(startDate, endDate, id);
     }
 }

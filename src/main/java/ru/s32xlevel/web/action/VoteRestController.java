@@ -31,37 +31,37 @@ public class VoteRestController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getAll(@RequestParam(value = "date", required = false)
-                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime) {
-        return voteService.getAll(dateTime);
+                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return voteService.getAll(date);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getAllToRestaurant(@PathVariable("id") int restaurantId,
                                          @RequestParam(value = "date", required = false)
-                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTime) {
-        return voteService.getAllToRestaurant(dateTime, restaurantId);
+                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return voteService.getAllToRestaurant(date, restaurantId);
     }
 
     @GetMapping(value = "/history/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getAllToRestaurantHistory(@PathVariable("id") int restaurantId,
                                                 @RequestParam(value = "date", required = false)
-                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                                 @RequestParam(value = "date", required = false)
-                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         return voteService.getAllToRestaurantHistory(startDate, endDate, restaurantId);
     }
 
     @GetMapping(value = "/history", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Vote> getBetween(@RequestParam(value = "startDate", required = false)
-                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                  @RequestParam(value = "endDate", required = false)
-                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         return voteService.getAllBetween(startDate, endDate);
     }
 
     @PostMapping(value = "/{id}")
     public ResponseEntity<Vote> vote(@PathVariable("id") int restaurantId, @AuthenticationPrincipal AuthorizedUser authorizedUser) {
-        Vote v = voteService.vote(restaurantId, authorizedUser.getId(), LocalDateTime.now());
+        Vote v = voteService.vote(restaurantId, authorizedUser.getId(), LocalTime.now());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_VOTE_URL + "/{id}")
                 .buildAndExpand(v.getId()).toUri();
@@ -71,7 +71,7 @@ public class VoteRestController {
 
     @GetMapping(value = "/is/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Vote get(@RequestParam(value = "date", required = false)
-                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date,
+                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
                     @PathVariable("id") int id) {
         return voteService.get(id, date);
     }

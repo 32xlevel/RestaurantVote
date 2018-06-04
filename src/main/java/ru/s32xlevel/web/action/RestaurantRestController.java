@@ -18,6 +18,7 @@ import ru.s32xlevel.util.ValidationUtil;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,54 +41,54 @@ public class RestaurantRestController {
 
     @GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantWithVote> getAllToDate(@RequestParam(value = "date", required = false)
-                                                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+                                                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
         return RestaurantUtil.getAllWithoutMenu(restaurantService.getAll(), date);
     }
 
     @GetMapping(value = "/menu", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantWithVote> getAllWithMenu(@RequestParam(value = "date", required = false)
-                                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+                                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
         return RestaurantUtil.getAllWithMenu(restaurantService.getAll(), date);
     }
 
     @GetMapping(value = "/date/menu", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantWithVote> getAllWithMenuToDate(@RequestParam(value = "date", required = false)
-                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
         return RestaurantUtil.getAllWithMenu(restaurantService.getAll(), date);
     }
 
     @GetMapping(value = "/history", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantWithVote> getAllBetweenWithoutMenu(@RequestParam(value = "startDate", required = false)
-                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                                              @RequestParam(value = "endDate", required = false)
-                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+                                                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
         return RestaurantUtil.getAllWithoutMenu(restaurantService.getAll(), startDate, endDate);
     }
 
     @GetMapping(value = "/history/menu", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantWithVote> getAllBetweenOfVotes(@RequestParam(value = "startDate", required = false)
-                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateVoice,
+                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDateVoice,
                                                          @RequestParam(value = "endDate", required = false)
-                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDateVoice,
+                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDateVoice,
                                                          @RequestParam(value = "dateMenu", required = false)
-                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
+                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
         return RestaurantUtil.getAll(restaurantService.getAll(), startDateVoice, endDateVoice, date);
     }
 
     @GetMapping(value = "/history/menu/history", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantWithVote> getAllBetweenOfVotesAndMenu(@RequestParam(value = "startDateVoice", required = false)
-                                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateVoice,
+                                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDateVoice,
                                                                 @RequestParam(value = "endDateVoice", required = false)
-                                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDateVoice,
+                                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDateVoice,
                                                                 @RequestParam(value = "startDateMenu", required = false)
-                                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateMenu,
+                                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDateMenu,
                                                                 @RequestParam(value = "endDateMenu", required = false)
-                                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDateMenu) {
+                                                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDateMenu) {
 
         return RestaurantUtil.getAll(restaurantService.getAll(), startDateVoice, endDateVoice, startDateMenu, endDateMenu);
     }

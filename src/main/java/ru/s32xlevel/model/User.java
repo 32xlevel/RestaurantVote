@@ -32,9 +32,6 @@ public class User extends AbstractNamedEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
-    private boolean enabled = true;
-
     @Column(name = "registered", columnDefinition = "timestamp default now()")
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -83,14 +80,6 @@ public class User extends AbstractNamedEntity {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public Date getRegistered() {

@@ -13,8 +13,7 @@ CREATE TABLE users
   name             VARCHAR                 NOT NULL,
   email            VARCHAR                 NOT NULL,
   password         VARCHAR                 NOT NULL,
-  registered       TIMESTAMP DEFAULT now() NOT NULL,
-  enabled          BOOL DEFAULT TRUE       NOT NULL
+  registered       TIMESTAMP DEFAULT now() NOT NULL
 );
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 
@@ -38,8 +37,8 @@ CREATE TABLE votes
   id  INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
   user_id INTEGER NOT NULL,
   restaurant_id INTEGER NOT NULL,
-  date_time TIMESTAMP NOT NULL,
-  CONSTRAINT votes_date_time_idx UNIQUE (user_id, date_time),
+  date DATE NOT NULL,
+  CONSTRAINT votes_date_idx UNIQUE (user_id, date),
   FOREIGN KEY (restaurant_id) REFERENCES RESTAURANTS (id) ON DELETE CASCADE
 );
 

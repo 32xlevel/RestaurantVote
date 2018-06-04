@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.s32xlevel.model.Vote;
 import ru.s32xlevel.repository.VoteRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,22 +19,22 @@ public class VoteRepositoryImpl implements VoteRepository {
     private CrudRestaurantRepository restaurantRepository;
 
     @Override
-    public List<Vote> getBetween(LocalDateTime startDate, LocalDateTime endDate) {
+    public List<Vote> getBetween(LocalDate startDate, LocalDate endDate) {
         return voteRepository.findAllByDateTimeBetween(startDate, endDate);
     }
 
     @Override
-    public List<Vote> getAll(LocalDateTime dateTime) {
-        return voteRepository.findAllByDateTime(dateTime);
+    public List<Vote> getAll(LocalDate date) {
+        return voteRepository.findAllByDateTime(date);
     }
 
     @Override
-    public List<Vote> getAllToRestaurant(LocalDateTime dateTime, int restaurantId) {
-        return voteRepository.findAllByDateTimeAndRestaurantId(dateTime, restaurantId);
+    public List<Vote> getAllToRestaurant(LocalDate date, int restaurantId) {
+        return voteRepository.findAllByDateTimeAndRestaurantId(date, restaurantId);
     }
 
     @Override
-    public List<Vote> getAllToRestaurantHistory(LocalDateTime startDate, LocalDateTime endDate, int restaurantId) {
+    public List<Vote> getAllToRestaurantHistory(LocalDate startDate, LocalDate endDate, int restaurantId) {
         return voteRepository.findAllToRestaurantHistory(restaurantId, startDate, endDate);
     }
 
@@ -47,8 +48,8 @@ public class VoteRepositoryImpl implements VoteRepository {
     }
 
     @Override
-    public Vote get(LocalDateTime dateTime, int userId) {
-        return voteRepository.get(dateTime, userId);
+    public Vote get(LocalDate date, int userId) {
+        return voteRepository.get(date, userId);
     }
 
     public Vote get(int id, int restaurantId) {
