@@ -31,16 +31,15 @@ public class Dish extends AbstractNamedEntity {
     }
 
     public Dish(Dish d) {
-        this(d.getId(), d.getName(), d.getDate(), d.getPrice(), d.getRestaurant());
+        this(d.getId(), d.getDate(), d.getName(), d.getPrice(), d.getRestaurant());
     }
 
-    public Dish(Integer id, String name, LocalDate date, Integer price) {
+    public Dish(Integer id, String name, Integer price) {
         super(id, name);
-        this.date = date;
         this.price = price;
     }
 
-    public Dish(Integer id, String name, LocalDate date, int price, Restaurant restaurant) {
+    public Dish(Integer id, LocalDate date, String name, int price, Restaurant restaurant) {
         super(id, name);
         this.date = date;
         this.price = price;

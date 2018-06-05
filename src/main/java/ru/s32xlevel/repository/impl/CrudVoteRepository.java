@@ -32,7 +32,8 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     List<Vote> findAllByDateTimeAndRestaurantId(@Param("date") LocalDate dateTime, @Param("rId") int restaurantId);
 
     @Query("SELECT DISTINCT v FROM Vote v LEFT JOIN FETCH v.restaurant WHERE v.restaurant.id=:rId and v.date>=:startDate and v.date<=:endDate")
-    List<Vote> findAllToRestaurantHistory(int restaurantId, LocalDate startDate, LocalDate endDate);
+    List<Vote> findAllToRestaurantHistory(@Param("rId") int restaurantId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-    Optional<Vote> findByIdAndRestaurantId(Integer id, Integer restaurantId);
+    @Query("SELECT DISTINCT v FROM Vote v LEFT JOIN FETCH v.restaurant WHERE v.id=:id and v.restaurant.id=:rId")
+    Optional<Vote> findByIdAndRestaurantId(@Param("id") Integer id, @Param("rId") Integer restaurantId);
 }
