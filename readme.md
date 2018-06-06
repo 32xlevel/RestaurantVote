@@ -1,5 +1,4 @@
 # Restaurant
-
 ### Test task for paid internship
 
 Design and implement a REST API using Hibernate/Spring/SpringMVC (or Spring-Boot) without frontend.
@@ -33,7 +32,9 @@ P.P.S.: Asume that your API will be used by a frontend developer to build fronte
 ### How to work?
 
 1. Use Java 8 or later
-2. User predefined users:
+2. Curl commands is in **curl.md** file
+3. Database data is in **postgres.properties** file 
+4. Use predefined users:
 * Role: user, Email: user1@yandex.ru, Password: password
 * Role: user, Email: user2@yandex.ru, Password: password
 * Role: admin, Email: admin@gmai.com, Password: admin
