@@ -93,7 +93,7 @@ get Dish 100007
 
 
 ---
-##### VOICES
+##### VOTE
 
 get All Votes from date
 
