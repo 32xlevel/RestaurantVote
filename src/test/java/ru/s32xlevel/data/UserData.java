@@ -21,7 +21,7 @@ public class UserData {
     public static final User ADMIN = new User(ADMIN_ID, "admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN);
 
     public static void assertMatch(User actual, User expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected, "password");
+        assertThat(actual).isEqualToIgnoringGivenFields(expected, "password", "registered");
     }
 
     public static void assertMatch(Iterable<User> actual, User... expected) {
@@ -29,18 +29,19 @@ public class UserData {
     }
 
     public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields("password").isEqualTo(expected);
+        assertThat(actual).usingElementComparatorIgnoringFields("registered","password").isEqualTo(expected);
     }
 
     public static ResultMatcher contentJson(User... expected) {
-        return content().json(writeIgnoreProps(Arrays.asList(expected), "password"));
+        return content().json(writeIgnoreProps(Arrays.asList(expected), "registered", "password"));
     }
+
 
     public static ResultMatcher contentJson(User expected) {
-        return content().json(writeIgnoreProps(expected, "password"));
+        return content().json(writeIgnoreProps(expected, "registered", "password"));
     }
 
-    public static String jsonWithPassword(User user, String password) {
-        return JsonUtil.writeAdditionProps(user, "password", password);
+    public static String jsonWithPassword(User user, String passw) {
+        return JsonUtil.writeAdditionProps(user, "password", passw);
     }
 }

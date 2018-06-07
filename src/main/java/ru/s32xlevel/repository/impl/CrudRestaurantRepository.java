@@ -24,7 +24,6 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Query("DELETE FROM Restaurant r where r.id=:id")
     int delete(@Param("id") int id);
 
-    @Override
     @Query("SELECT DISTINCT r FROM Restaurant r LEFT JOIN FETCH r.votes ORDER BY r.name")
     List<Restaurant> findAll();
 }

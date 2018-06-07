@@ -28,7 +28,7 @@ public class RestaurantServiceTest extends AbstractServiceTest {
 
     @Test
     public void getAll() {
-        assertMatch(service.getAll(), RES1, RES2, RES4, RES3);
+        assertMatch(service.getAll(), RES2, RES4, RES3, RES1);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class RestaurantServiceTest extends AbstractServiceTest {
         Restaurant newRest = new Restaurant(null, "Test");
         Restaurant created = service.create(newRest);
         newRest.setId(created.getId());
-        assertMatch(service.getAll(), newRest, RES1, RES2, RES4, RES3);
+        assertMatch(service.getAll(), newRest, RES2, RES4, RES3, RES1);
     }
 
     @Test(expected = NotFoundException.class)

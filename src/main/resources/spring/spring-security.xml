@@ -16,8 +16,6 @@
         <csrf disabled="true"/>
     </http>
 
-    <!--<beans:bean class="ru.qf05.restaurants.web.GlobalControllerExceptionHandler" id="globalControllerExceptionHandler"/>-->
-
     <beans:bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories" id="passwordEncoder"
                 factory-method="createDelegatingPasswordEncoder"/>
 

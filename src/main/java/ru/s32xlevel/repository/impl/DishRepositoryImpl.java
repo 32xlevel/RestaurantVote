@@ -23,6 +23,9 @@ public class DishRepositoryImpl implements DishRepository {
             return null;
         }
         dish.setRestaurant(restaurantRepository.getOne(restaurantId));
+        if(dish.isNew()) {
+            dish.setDate(LocalDate.now());
+        }
         return dishRepository.save(dish);
     }
 

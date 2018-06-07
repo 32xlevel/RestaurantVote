@@ -12,6 +12,7 @@ import ru.s32xlevel.TestUtil;
 import ru.s32xlevel.data.DishData;
 import ru.s32xlevel.model.Dish;
 import ru.s32xlevel.service.DishService;
+import ru.s32xlevel.util.exception.ErrorType;
 import ru.s32xlevel.web.AbstractControllerTest;
 import ru.s32xlevel.web.json.JsonUtil;
 
@@ -56,15 +57,6 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(contentJson(expected));
-    }
-
-    @Test
-    public void copyMenu() throws Exception {
-        mockMvc.perform(get(URL + "copy/" + RES_ID1 + "?date=2018-03-24")
-                .with(userHttpBasic(ADMIN))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-        assertMatch(service.getAll(RES_ID1, LocalDate.now()), DishData.getNewEatToday());
     }
 
     @Test
@@ -183,8 +175,8 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(expected)))
                 .andDo(print())
-                .andExpect(status().isConflict());
-//                .andExpect(errorType(ErrorType.DATA_ERROR));
+                .andExpect(status().isConflict())
+                .andExpect(errorType(ErrorType.DATA_ERROR));
     }
 
     @Test
@@ -216,8 +208,8 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andDo(print())
-                .andExpect(status().isConflict());
-//                .andExpect(errorType(ErrorType.DATA_ERROR));
+                .andExpect(status().isConflict())
+                .andExpect(errorType(ErrorType.DATA_ERROR));
     }
 
     @Test

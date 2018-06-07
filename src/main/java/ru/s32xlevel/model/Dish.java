@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"date","restaurant_id", "name"}, name = "dishes_unique_date_restaurant_idx")})
+@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"date", "name", "restaurant_id"}, name = "dishes_name_unique_restaurant_idx")})
 public class Dish extends AbstractNamedEntity {
 
     @Column(name = "date", nullable = false)
