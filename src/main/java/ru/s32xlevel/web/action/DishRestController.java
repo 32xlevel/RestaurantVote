@@ -54,6 +54,7 @@ public class DishRestController {
     @Secured(value = {"ROLE_ADMIN"})
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> create(@Valid @RequestBody Dish dish, @PathVariable("id") int restaurantId) {
+        log.info("create dish {} for {} restaurant", dish, restaurantId);
         checkNew(dish);
         Dish created = dishService.create(dish, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -66,6 +67,7 @@ public class DishRestController {
     @Secured(value = {"ROLE_ADMIN"})
     @PutMapping(value = "/{rId}/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void update(@Valid @RequestBody Dish dish, @PathVariable("id") int id, @PathVariable("rId") int restaurantId) {
+        log.info("update dish {} for {} restaurant", dish, restaurantId);
         assureIdConsistent(dish, id);
         dishService.update(dish, restaurantId);
     }
@@ -74,11 +76,13 @@ public class DishRestController {
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int dishId) {
+        log.info("delete dish {}", dishId);
         dishService.delete(dishId);
     }
 
     @GetMapping(value = "/is/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Dish get(@PathVariable("id") int dishId) {
+        log.info("get dish {}", dishId);
         return dishService.get(dishId);
     }
 }

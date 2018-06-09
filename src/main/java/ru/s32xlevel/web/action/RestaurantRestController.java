@@ -35,27 +35,28 @@ public class RestaurantRestController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantWithVote> getAll() {
+        log.info("getAll restaurant");
         return RestaurantUtil.getAll(restaurantService.getAll());
     }
 
     @GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantWithVote> getAllToDate(@RequestParam(value = "date", required = false)
                                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-
+        log.info("getAll restaurant for {} date", date);
         return RestaurantUtil.getAllWithoutMenu(restaurantService.getAll(), date);
     }
 
     @GetMapping(value = "/menu", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantWithVote> getAllWithMenu(@RequestParam(value = "date", required = false)
                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-
+        log.info("getAll restaurant for {} date", date);
         return RestaurantUtil.getAllWithMenu(restaurantService.getAll(), date);
     }
 
     @GetMapping(value = "/date/menu", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RestaurantWithVote> getAllWithMenuToDate(@RequestParam(value = "date", required = false)
                                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-
+        log.info("getAllWithMenu restaurant for {} date", date);
         return RestaurantUtil.getAllWithMenu(restaurantService.getAll(), date);
     }
 
@@ -64,7 +65,7 @@ public class RestaurantRestController {
                                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                                              @RequestParam(value = "endDate", required = false)
                                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-
+        log.info("getAllBetweenWithoutMenu restaurant from {} to {} date", startDate, endDate);
         return RestaurantUtil.getAllWithoutMenu(restaurantService.getAll(), startDate, endDate);
     }
 
@@ -75,7 +76,7 @@ public class RestaurantRestController {
                                                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDateVoice,
                                                          @RequestParam(value = "dateMenu", required = false)
                                                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-
+        log.info("getAllBetweenOfVotes restaurant from {} to {} date and menu for {} date", startDateVoice, endDateVoice, date);
         return RestaurantUtil.getAll(restaurantService.getAll(), startDateVoice, endDateVoice, date);
     }
 
@@ -88,13 +89,14 @@ public class RestaurantRestController {
                                                                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDateMenu,
                                                                 @RequestParam(value = "endDateMenu", required = false)
                                                                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDateMenu) {
-
+        log.info("getAllBetweenOfVotesAndMenu restaurant votes from {} to {} date and menu from{} to {} date", startDateVoice, endDateVoice, startDateMenu, endDateMenu);
         return RestaurantUtil.getAll(restaurantService.getAll(), startDateVoice, endDateVoice, startDateMenu, endDateMenu);
     }
 
     @Secured(value = {"ROLE_ADMIN"})
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> add(@Valid @RequestBody Restaurant restaurant) {
+        log.info("add restaurant {}", restaurant);
         ValidationUtil.checkNew(restaurant);
         Restaurant created = restaurantService.create(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -108,6 +110,7 @@ public class RestaurantRestController {
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") int restaurantId) {
+        log.info("delete restaurant {}", restaurantId);
         restaurantService.delete(restaurantId);
     }
 
